@@ -1,6 +1,6 @@
 import React from 'react';
-//import {NavLink} from './NavLink';
-import { Link } from 'react-router';
+import NavLink from './NavLink';
+//import { Link } from 'react-router';
 //console.log('~~Navlink ', Navlink);
 // export default React.createClass({
 //   render() {
@@ -9,9 +9,9 @@ import { Link } from 'react-router';
       <div>
         <h1>Campus Management</h1>
         <ul role="nav">
-          <li><Link to="/" onlyActiveOnIndex>Home</Link></li>
-          <li><Link to="/about">Students</Link></li>
-          <li><Link to="/repos">Campuses</Link></li>
+          <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>
+          <li><NavLink to="/students">Students</NavLink></li>
+          <li><NavLink to="/campuses">Campuses</NavLink></li>
         </ul>
         {props.children}
       </div>
