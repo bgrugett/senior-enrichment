@@ -13,6 +13,7 @@ const Campuses = (props) => {
            <li key={campus.id} ><NavLink to={`/campuses/${campus.name}`}>{campus.name}</NavLink></li>
         )) }
       </ul>
+      {props.children}
     </div>
   );
 };

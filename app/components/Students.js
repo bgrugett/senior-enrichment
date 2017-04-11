@@ -5,7 +5,6 @@ import NavLink from './NavLink';
 
 // ------------- Component
 const Students = (props) => {
-  console.log('~~~Students props ', props);
   return (
     <div>
       <h1>These are the Students!</h1>

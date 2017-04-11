@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import NavLink from './NavLink';
 
 const Student = (props) => {
   console.log('~~~props in Student ', props);
@@ -7,7 +8,7 @@ const Student = (props) => {
       <div>
         <h2>Student Name: {props.params.name}</h2>
         <h3>Student email: {props.selectedStudent.email}</h3>
-        <h3>Student campus: {props.selectedStudent.campus.name}</h3>
+        <h3>Student campus: <NavLink to={`/campuses/${props.selectedStudent.campus.name}`}>{props.selectedStudent.campus.name}</NavLink></h3>
       </div>
     );
 };
