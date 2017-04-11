@@ -2,7 +2,7 @@
 var Sequelize = require('sequelize')
 var db = require('../index.js')
 
-module.exports = db.define('user', {
+const User = db.define('user', {
   name: Sequelize.STRING,
   email: {
     type: Sequelize.STRING,
@@ -12,3 +12,5 @@ module.exports = db.define('user', {
     }
   }
 });
+
+module.exports = User;

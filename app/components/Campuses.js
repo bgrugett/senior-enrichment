@@ -1,7 +1,29 @@
+// Required libraries
 import React from 'react';
+import NavLink from './NavLink';
+import { connect } from 'react-redux';
 
-export default React.createClass({
-  render() {
-    return <div>Campuses</div>;
-  }
-});
+// ------------- Component
+const Campuses = (props) => {
+  return (
+    <div>
+      <h1>These are the Campuses!</h1>
+      <ul>
+        { props.allCampuses.map(campus => (
+           <li key={campus.id} ><NavLink to={`/campuses/${campus.name}`}>{campus.name}</NavLink></li>
+        )) }
+      </ul>
+    </div>
+  );
+};
+
+// ------------- Container
+const mapStateToProps = (state) => {
+  return {
+    allCampuses: state.campuses.allCampuses,
+  };
+};
+
+const mapDispatchToProps = null;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campuses);

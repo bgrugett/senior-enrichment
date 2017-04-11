@@ -2,9 +2,8 @@
 var Sequelize = require('sequelize');
 var db = require('../index.js');
 
-const Campuses = db.define('campuses', {
+const Campus = db.define('campus', {
   name: Sequelize.STRING,
   planet: Sequelize.STRING
 });
-console.log('~~in models Campuses');
-module.exports = Campuses;
+module.exports = Campus;

@@ -5,7 +5,9 @@
 	// This works if we all use the same Sequelize instance (instantiated in and exported from `/db/index.js`)
 const Sequelize = require('sequelize');
 const User = require('./user');
-const Campuses = require('./campuses');
+const Campus = require('./campus');
 
-User.belongsTo(Campuses);  //adds campusId key to User
-module.exports = {User, Campuses};
+User.belongsTo(Campus);  //adds campusId key to User
+Campus.hasMany(User, {as: 'student'});  //adds getStudents method to Campuses instances
+
+module.exports = {User, Campus};
