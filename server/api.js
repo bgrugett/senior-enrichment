@@ -13,6 +13,13 @@ const Campus = db.models.campus;
   .catch(next);
 });
 
+api.post('/campuses/add', (req, res, next) => {
+  console.log('campus post req.body ', req.body);
+  Campus.create(req.body)
+  .then(addedCampus => res.send(addedCampus))
+  .catch(next);
+});
+
 api.get('/students', (req, res, next) => {
   User.findAll({
     include: [ Campus ]

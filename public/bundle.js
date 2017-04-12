@@ -14306,7 +14306,9 @@ var _NavLink2 = _interopRequireDefault(_NavLink);
 
 var _reactRedux = __webpack_require__(142);
 
-var _campusReducer = __webpack_require__(162);
+var _AddCampus = __webpack_require__(322);
+
+var _AddCampus2 = _interopRequireDefault(_AddCampus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14321,6 +14323,7 @@ var Campuses = function Campuses(props) {
       null,
       'Add a Campus '
     ),
+    _react2.default.createElement(_AddCampus2.default, null),
     _react2.default.createElement(
       'h1',
       null,
@@ -33137,7 +33140,7 @@ var AddCampus = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
-      var campusData = { name: this.state.name, email: this.state.planet };
+      var campusData = { name: this.state.name, planet: this.state.planet };
       this.props.addCampus(campusData);
     }
   }, {

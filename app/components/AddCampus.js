@@ -24,7 +24,7 @@ class AddCampus extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    let campusData = {name: this.state.name, email: this.state.planet};
+    let campusData = {name: this.state.name, planet: this.state.planet};
     this.props.addCampus(campusData);
   }
 
