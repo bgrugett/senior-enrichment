@@ -82,8 +82,9 @@ export const fetchStudents = () => {
 export const addStudent = (studentData) => {
   return (dispatch) => {
     axios.post('/api/students/add', studentData)
-      .then(response => {
-        dispatch(newStudent(response.data));
+      .then( () => {
+        //dispatch(newStudent(response.data));
+        dispatch(fetchStudents());
       })
       .catch(console.error);
   };
@@ -92,8 +93,8 @@ export const addStudent = (studentData) => {
 export const removeStudent = (studentId) => {
   return (dispatch) => {
     axios.delete(`/api/students/delete/${studentId}`)
-      .then(response => {
-        dispatch(deleteStudent(response.data));
+      .then( () => {
+        dispatch(fetchStudents());
       })
       .catch(console.error);
   };

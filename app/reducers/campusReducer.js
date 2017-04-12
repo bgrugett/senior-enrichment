@@ -82,8 +82,8 @@ export const fetchCampuses = () => {
 export const addCampus = (campusData) => {
   return (dispatch) => {
     axios.post('/api/campuses/add', campusData)
-      .then(response => {
-        dispatch(newCampus(response.data));
+      .then(() => {
+        dispatch(fetchCampuses());
       })
       .catch(console.error);
   };
@@ -91,8 +91,8 @@ export const addCampus = (campusData) => {
 export const removeCampus = (campusId) => {
   return (dispatch) => {
     axios.delete(`/api/campuses/delete/${+campusId}`)
-      .then(response => {
-        dispatch(deleteCampus(response.data));
+      .then(() => {
+        dispatch(fetchCampuses());
       })
       .catch(console.error);
   };

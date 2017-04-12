@@ -15644,15 +15644,15 @@ var fetchCampuses = exports.fetchCampuses = function fetchCampuses() {
 };
 var addCampus = exports.addCampus = function addCampus(campusData) {
   return function (dispatch) {
-    _axios2.default.post('/api/campuses/add', campusData).then(function (response) {
-      dispatch(newCampus(response.data));
+    _axios2.default.post('/api/campuses/add', campusData).then(function () {
+      dispatch(fetchCampuses());
     }).catch(console.error);
   };
 };
 var removeCampus = exports.removeCampus = function removeCampus(campusId) {
   return function (dispatch) {
-    _axios2.default.delete('/api/campuses/delete/' + +campusId).then(function (response) {
-      dispatch(deleteCampus(response.data));
+    _axios2.default.delete('/api/campuses/delete/' + +campusId).then(function () {
+      dispatch(fetchCampuses());
     }).catch(console.error);
   };
 };
@@ -15789,16 +15789,17 @@ var fetchStudents = exports.fetchStudents = function fetchStudents() {
 };
 var addStudent = exports.addStudent = function addStudent(studentData) {
   return function (dispatch) {
-    _axios2.default.post('/api/students/add', studentData).then(function (response) {
-      dispatch(newStudent(response.data));
+    _axios2.default.post('/api/students/add', studentData).then(function () {
+      //dispatch(newStudent(response.data));
+      dispatch(fetchStudents());
     }).catch(console.error);
   };
 };
 
 var removeStudent = exports.removeStudent = function removeStudent(studentId) {
   return function (dispatch) {
-    _axios2.default.delete('/api/students/delete/' + studentId).then(function (response) {
-      dispatch(deleteStudent(response.data));
+    _axios2.default.delete('/api/students/delete/' + studentId).then(function () {
+      dispatch(fetchStudents());
     }).catch(console.error);
   };
 };
