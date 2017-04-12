@@ -29,9 +29,7 @@ const Campus = (props) => {
 const mapStateToProps = (state) => {
   console.log('~~state in Campus ', state);
   return {
-    selectedStudent: state.students.selectedStudent,
     allStudents: state.students.allStudents,
-    allCampuses: state.campuses.allCampuses,
     selectedCampus: state.campuses.selectedCampus
   };
 };

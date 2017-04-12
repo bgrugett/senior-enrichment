@@ -2,11 +2,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NavLink from './NavLink';
+import AddStudent from './AddStudent';
 
 // ------------- Component
 const Students = (props) => {
   return (
     <div>
+      <h3>Add a Student </h3>
+      <AddStudent />
       <h1>These are the Students!</h1>
       <ul>
         { props.allStudents.map(student => (
@@ -22,10 +25,7 @@ const Students = (props) => {
 const mapStateToProps = (state) => {
   console.log('~~state in Students ', state);
   return {
-    selectedStudent: state.students.selectedStudent,
     allStudents: state.students.allStudents,
-    allCampuses: state.campuses.allCampuses,
-    selectedCampus: state.campuses.selectedCampus
   };
 };
 

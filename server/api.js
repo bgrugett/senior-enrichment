@@ -21,4 +21,11 @@ api.get('/students', (req, res, next) => {
   .catch(next);
 });
 
+api.post('/students/add', (req, res, next) => {
+  console.log('in route', req.body);
+  User.create(req.body)
+  .then(addedStudent => res.send(addedStudent))
+  .catch(next);
+});
+
 module.exports = api;

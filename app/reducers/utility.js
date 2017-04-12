@@ -7,14 +7,6 @@ export const removeElement = (array, element) => {
   }
 };
 
-export const findObjectByName = (arr, name) => {
-  if (!arr) console.error('findObjectByName called with empty array');
-  if (!name) console.error('findObjectByName called with no name');
-  let returnObject = {here: 'why am I'};
-  arr.forEach(function(obj) {
-    if (obj.name === name) {
-      returnObject = obj;
-    }
-  });
-  return returnObject;
-};
+export const findObjectByName = (arr, name) =>
+  arr.find(obj => obj.name === name);
+

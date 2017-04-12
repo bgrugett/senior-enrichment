@@ -4,9 +4,9 @@ import {removeElement, findObjectByName} from './utility';
 
 // ----------- Actions
 const FETCH_STUDENTS = 'FETCH_STUDENTS';
-const ADD_STUDENT = 'ADD_STUDENT';
 const DELETE_STUDENT = 'DELETE_STUDENT';
 const SELECT_STUDENT = 'SELECT_STUDENT';
+const NEW_STUDENT = 'NEW_STUDENT';
 
 // ----------- Action Creators
 export const receiveStudents = (students) => {
@@ -16,9 +16,9 @@ export const receiveStudents = (students) => {
   };
 };
 
-export const addStudent = (student) => {
+export const newStudent = (student) => {
   return {
-    type: ADD_STUDENT,
+    type: NEW_STUDENT,
     student
   };
 };
@@ -51,7 +51,7 @@ export default function studentReducer (state = initialState, action) {
       nextState.allStudents = action.students;
       break;
 
-    case ADD_STUDENT:
+    case NEW_STUDENT:
       nextState.allStudents = nextState.allStudents.concat(action.student);
       break;
 
@@ -75,6 +75,15 @@ export const fetchStudents = () => {
     axios.get('/api/students')
       .then(response => {
         dispatch(receiveStudents(response.data));
+      })
+      .catch(console.error);
+  };
+};
+export const addStudent = (studentData) => {
+  return (dispatch) => {
+    axios.post('/api/students/add', studentData)
+      .then(response => {
+        dispatch(newStudent(response.data));
       })
       .catch(console.error);
   };
