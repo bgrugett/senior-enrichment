@@ -2,11 +2,13 @@
 import React from 'react';
 import NavLink from './NavLink';
 import { connect } from 'react-redux';
+import {AddCampus} from '../reducers/campusReducer';
 
 // ------------- Component
 const Campuses = (props) => {
   return (
     <div>
+    <h3>Add a Campus </h3>
       <h1>These are the Campuses!</h1>
       <ul>
         { props.allCampuses.map(campus => (

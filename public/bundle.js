@@ -14306,13 +14306,21 @@ var _NavLink2 = _interopRequireDefault(_NavLink);
 
 var _reactRedux = __webpack_require__(142);
 
+var _campusReducer = __webpack_require__(162);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // ------------- Component
+// Required libraries
 var Campuses = function Campuses(props) {
   return _react2.default.createElement(
     'div',
     null,
+    _react2.default.createElement(
+      'h3',
+      null,
+      'Add a Campus '
+    ),
     _react2.default.createElement(
       'h1',
       null,
@@ -14338,7 +14346,6 @@ var Campuses = function Campuses(props) {
 };
 
 // ------------- Container
-// Required libraries
 var mapStateToProps = function mapStateToProps(state) {
   return {
     allCampuses: state.campuses.allCampuses
@@ -14466,11 +14473,13 @@ var _AddStudent = __webpack_require__(321);
 
 var _AddStudent2 = _interopRequireDefault(_AddStudent);
 
+var _studentReducer = __webpack_require__(164);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // ------------- Component
-// Required libraries
 var Students = function Students(props) {
+  console.log('~~props in Students ', props);
   return _react2.default.createElement(
     'div',
     null,
@@ -14496,6 +14505,13 @@ var Students = function Students(props) {
             _NavLink2.default,
             { to: '/students/' + student.name },
             student.name
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick() {
+                return props.removeStudent(student.id);
+              } },
+            '  X '
           )
         );
       })
@@ -14505,6 +14521,7 @@ var Students = function Students(props) {
 };
 
 // ------------- Container
+// Required libraries
 var mapStateToProps = function mapStateToProps(state) {
   console.log('~~state in Students ', state);
   return {
@@ -14512,7 +14529,14 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var mapDispatchToProps = null;
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    removeStudent: function removeStudent(studentId) {
+      console.log('remove student studentId ', studentId);
+      dispatch((0, _studentReducer.removeStudent)(studentId));
+    }
+  };
+};
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Students);
 
@@ -15511,7 +15535,7 @@ _reactDom2.default.render(_react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchCampuses = exports.selectCampus = exports.deleteCampus = exports.addCampus = exports.receiveCampuses = undefined;
+exports.addCampus = exports.fetchCampuses = exports.selectCampus = exports.deleteCampus = exports.newCampus = exports.receiveCampuses = undefined;
 exports.default = campusReducer;
 
 var _axios = __webpack_require__(79);
@@ -15525,7 +15549,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // ----------- Actions
 // Required libraries
 var FETCH_CAMPUSES = 'FETCH_CAMPUSES';
-var ADD_CAMPUS = 'ADD_CAMPUS';
+var NEW_CAMPUS = 'NEW_CAMPUS';
 var DELETE_CAMPUS = 'DELETE_CAMPUS';
 var SELECT_CAMPUS = 'SELECT_CAMPUS';
 
@@ -15537,9 +15561,9 @@ var receiveCampuses = exports.receiveCampuses = function receiveCampuses(campuse
   };
 };
 
-var addCampus = exports.addCampus = function addCampus(campus) {
+var newCampus = exports.newCampus = function newCampus(campus) {
   return {
-    type: ADD_CAMPUS,
+    type: NEW_CAMPUS,
     campus: campus
   };
 };
@@ -15575,7 +15599,7 @@ function campusReducer() {
       nextState.allCampuses = action.campuses;
       break;
 
-    case ADD_CAMPUS:
+    case NEW_CAMPUS:
       nextState.allCampuses = nextState.allCampuses.concat(action.campus);
       break;
 
@@ -15598,6 +15622,13 @@ var fetchCampuses = exports.fetchCampuses = function fetchCampuses() {
   return function (dispatch) {
     _axios2.default.get('/api/campuses').then(function (response) {
       dispatch(receiveCampuses(response.data));
+    }).catch(console.error);
+  };
+};
+var addCampus = exports.addCampus = function addCampus(campusData) {
+  return function (dispatch) {
+    _axios2.default.post('/api/campuses/add', campusData).then(function (response) {
+      dispatch(newCampus(response.data));
     }).catch(console.error);
   };
 };
@@ -15642,7 +15673,7 @@ exports.default = rootReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addStudent = exports.fetchStudents = exports.selectStudent = exports.deleteStudent = exports.newStudent = exports.receiveStudents = undefined;
+exports.removeStudent = exports.addStudent = exports.fetchStudents = exports.selectStudent = exports.deleteStudent = exports.newStudent = exports.receiveStudents = undefined;
 exports.default = studentReducer;
 
 var _axios = __webpack_require__(79);
@@ -15736,6 +15767,15 @@ var addStudent = exports.addStudent = function addStudent(studentData) {
   return function (dispatch) {
     _axios2.default.post('/api/students/add', studentData).then(function (response) {
       dispatch(newStudent(response.data));
+    }).catch(console.error);
+  };
+};
+
+var removeStudent = exports.removeStudent = function removeStudent(studentId) {
+  console.log('in removeStudent');
+  return function (dispatch) {
+    _axios2.default.delete('/api/students/delete/' + studentId).then(function (response) {
+      dispatch(deleteStudent(response.data));
     }).catch(console.error);
   };
 };
@@ -32684,6 +32724,10 @@ var _AddStudent = __webpack_require__(321);
 
 var _AddStudent2 = _interopRequireDefault(_AddStudent);
 
+var _AddCampus = __webpack_require__(322);
+
+var _AddCampus2 = _interopRequireDefault(_AddCampus);
+
 var _Campuses = __webpack_require__(136);
 
 var _Campuses2 = _interopRequireDefault(_Campuses);
@@ -32703,6 +32747,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Root = function Root(props) {
   //console.log('~~~props inside root ', props);
 
+  var handleOnEnter = function handleOnEnter(event) {
+    props.fetchStudents();
+    props.fetchCampuses();
+  };
+
   return _react2.default.createElement(
     _reactRouter.Router,
     { history: _reactRouter.browserHistory },
@@ -32711,14 +32760,15 @@ var Root = function Root(props) {
       { path: '/', component: _Home2.default },
       _react2.default.createElement(
         _reactRouter.Route,
-        { path: '/students', component: _Students2.default, onEnter: props.fetchStudents },
+        { path: '/students', component: _Students2.default, onEnter: handleOnEnter },
         _react2.default.createElement(_reactRouter.Route, { path: '/students/:name', component: _Student2.default, onEnter: props.selectStudent }),
         _react2.default.createElement(_reactRouter.Route, { path: '/students/AddStudent', component: _AddStudent2.default })
       ),
       _react2.default.createElement(
         _reactRouter.Route,
-        { path: '/campuses', component: _Campuses2.default, onEnter: props.fetchCampuses },
-        _react2.default.createElement(_reactRouter.Route, { path: '/campuses/:name', component: _Campus2.default, onEnter: props.selectCampus })
+        { path: '/campuses', component: _Campuses2.default, onEnter: handleOnEnter },
+        _react2.default.createElement(_reactRouter.Route, { path: '/campuses/:name', component: _Campus2.default, onEnter: props.selectCampus }),
+        _react2.default.createElement(_reactRouter.Route, { path: '/campuses/AddCampus', component: _AddCampus2.default })
       )
     )
   );
@@ -32939,6 +32989,7 @@ var AddStudent = function (_React$Component) {
 
     _this.handleChangeName = _this.handleChangeName.bind(_this);
     _this.handleChangeEmail = _this.handleChangeEmail.bind(_this);
+    _this.handleChangeCampus = _this.handleChangeCampus.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     return _this;
   }
@@ -32952,6 +33003,11 @@ var AddStudent = function (_React$Component) {
     key: 'handleChangeEmail',
     value: function handleChangeEmail(event) {
       this.setState({ email: event.target.value });
+    }
+  }, {
+    key: 'handleChangeCampus',
+    value: function handleChangeCampus(event) {
+      this.setState({ campusId: event.target.value });
     }
   }, {
     key: 'handleSubmit',
@@ -32978,6 +33034,22 @@ var AddStudent = function (_React$Component) {
           'Email:',
           _react2.default.createElement('input', { type: 'text', value: this.state.email, onChange: this.handleChangeEmail })
         ),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Campus:',
+          _react2.default.createElement(
+            'select',
+            { value: this.state.campusId, onChange: this.handleChangeCampus },
+            this.props.allCampuses.map(function (campus) {
+              return _react2.default.createElement(
+                'option',
+                { key: campus.id, value: campus.id },
+                campus.name
+              );
+            })
+          )
+        ),
         _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
       );
     }
@@ -32990,9 +33062,8 @@ var AddStudent = function (_React$Component) {
 
 
 var mapStateToProps = function mapStateToProps(state) {
-  console.log('~~state in Students ', state);
   return {
-    allCampuses: state.students.allCampuses
+    allCampuses: state.campuses.allCampuses
   };
 };
 
@@ -33004,6 +33075,114 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddStudent);
+
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(142);
+
+var _campusReducer = __webpack_require__(162);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddCampus = function (_React$Component) {
+  _inherits(AddCampus, _React$Component);
+
+  function AddCampus(props) {
+    _classCallCheck(this, AddCampus);
+
+    var _this = _possibleConstructorReturn(this, (AddCampus.__proto__ || Object.getPrototypeOf(AddCampus)).call(this, props));
+
+    _this.state = { name: '',
+      planet: ''
+    };
+
+    _this.handleChangeName = _this.handleChangeName.bind(_this);
+    _this.handleChangePlanet = _this.handleChangePlanet.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(AddCampus, [{
+    key: 'handleChangeName',
+    value: function handleChangeName(event) {
+      this.setState({ name: event.target.value });
+    }
+  }, {
+    key: 'handleChangePlanet',
+    value: function handleChangePlanet(event) {
+      this.setState({ planet: event.target.value });
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      event.preventDefault();
+      var campusData = { name: this.state.name, email: this.state.planet };
+      this.props.addCampus(campusData);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: this.handleSubmit },
+        _react2.default.createElement(
+          'label',
+          null,
+          'Name:',
+          _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleChangeName })
+        ),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Planet:',
+          _react2.default.createElement('input', { type: 'text', value: this.state.planet, onChange: this.handleChangePlanet })
+        ),
+        _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+      );
+    }
+  }]);
+
+  return AddCampus;
+}(_react2.default.Component);
+
+// ------------- Container
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    allCampuses: state.campuses.allCampuses
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    addCampus: function addCampus(campusData) {
+      dispatch((0, _campusReducer.addCampus)(campusData));
+    }
+  };
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddCampus);
 
 /***/ })
 /******/ ]);

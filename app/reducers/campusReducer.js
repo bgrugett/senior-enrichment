@@ -4,7 +4,7 @@ import {removeElement, findObjectByName} from './utility';
 
 // ----------- Actions
 const FETCH_CAMPUSES = 'FETCH_CAMPUSES';
-const ADD_CAMPUS = 'ADD_CAMPUS';
+const NEW_CAMPUS = 'NEW_CAMPUS';
 const DELETE_CAMPUS = 'DELETE_CAMPUS';
 const SELECT_CAMPUS = 'SELECT_CAMPUS';
 
@@ -16,9 +16,9 @@ export const receiveCampuses = (campuses) => {
   };
 };
 
-export const addCampus = (campus) => {
+export const newCampus = (campus) => {
   return {
-    type: ADD_CAMPUS,
+    type: NEW_CAMPUS,
     campus
   };
 };
@@ -51,7 +51,7 @@ export default function campusReducer (state = initialState, action) {
       nextState.allCampuses = action.campuses;
       break;
 
-    case ADD_CAMPUS:
+    case NEW_CAMPUS:
       nextState.allCampuses = nextState.allCampuses.concat(action.campus);
       break;
 
@@ -75,6 +75,15 @@ export const fetchCampuses = () => {
     axios.get('/api/campuses')
       .then(response => {
         dispatch(receiveCampuses(response.data));
+      })
+      .catch(console.error);
+  };
+};
+export const addCampus = (campusData) => {
+  return (dispatch) => {
+    axios.post('/api/campuses/add', campusData)
+      .then(response => {
+        dispatch(newCampus(response.data));
       })
       .catch(console.error);
   };

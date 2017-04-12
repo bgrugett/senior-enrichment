@@ -12,6 +12,7 @@ class AddStudent extends React.Component {
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangeCampus = this.handleChangeCampus.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -21,6 +22,10 @@ class AddStudent extends React.Component {
 
   handleChangeEmail(event) {
     this.setState({email: event.target.value});
+  }
+
+  handleChangeCampus(event) {
+    this.setState({campusId: event.target.value});
   }
 
   handleSubmit(event) {
@@ -41,6 +46,14 @@ class AddStudent extends React.Component {
           Email:
           <input type="text" value={this.state.email} onChange={this.handleChangeEmail} />
         </label>
+        <label>
+          Campus:
+          <select value={this.state.campusId} onChange={this.handleChangeCampus}>
+            { this.props.allCampuses.map(campus => (
+              <option key={campus.id} value={campus.id}>{campus.name}</option>
+            )) }
+          </select>
+        </label>
         <input type="submit" value="Submit" />
       </form>
     );
@@ -49,9 +62,8 @@ class AddStudent extends React.Component {
 
 // ------------- Container
 const mapStateToProps = (state) => {
-  console.log('~~state in Students ', state);
   return {
-    allCampuses: state.students.allCampuses,
+    allCampuses: state.campuses.allCampuses,
   };
 };
 

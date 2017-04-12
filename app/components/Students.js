@@ -3,9 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavLink from './NavLink';
 import AddStudent from './AddStudent';
+import {removeStudent} from '../reducers/studentReducer';
 
 // ------------- Component
 const Students = (props) => {
+  console.log('~~props in Students ', props);
   return (
     <div>
       <h3>Add a Student </h3>
@@ -13,7 +15,8 @@ const Students = (props) => {
       <h1>These are the Students!</h1>
       <ul>
         { props.allStudents.map(student => (
-          <li key={student.id} ><NavLink to={`/students/${student.name}`}>{student.name}</NavLink></li>
+          <li key={student.id} ><NavLink to={`/students/${student.name}`}>{student.name}
+             </NavLink><button onClick= { () => props.removeStudent(student.id)}>  X </button></li>
         )) }
       </ul>
       {props.children}
@@ -29,6 +32,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeStudent: (studentId) => {
+      console.log('remove student studentId ', studentId);
+      dispatch(removeStudent(studentId));
+    }
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Students);

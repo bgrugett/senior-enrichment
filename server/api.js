@@ -22,10 +22,20 @@ api.get('/students', (req, res, next) => {
 });
 
 api.post('/students/add', (req, res, next) => {
-  console.log('in route', req.body);
   User.create(req.body)
   .then(addedStudent => res.send(addedStudent))
   .catch(next);
 });
 
+api.delete('/students/delete/:id', (req, res, next) => {
+  console.log('req.body in delete ', req.body);
+  console.log('req.params in delete ', req.params);
+  User.destroy({
+    where: {
+      id: +req.params.id
+    }
+  })
+  .then( (deletedStudent) => res.json(deletedStudent))
+  .catch(next);
+});
 module.exports = api;
