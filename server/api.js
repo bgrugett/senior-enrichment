@@ -14,9 +14,18 @@ const Campus = db.models.campus;
 });
 
 api.post('/campuses/add', (req, res, next) => {
-  console.log('campus post req.body ', req.body);
   Campus.create(req.body)
   .then(addedCampus => res.send(addedCampus))
+  .catch(next);
+});
+
+api.delete('/campuses/delete/:id', (req, res, next) => {
+  Campus.destroy({
+    where: {
+      id: +req.params.id
+    }
+  })
+  .then( (deletedCampus) => res.json(deletedCampus))
   .catch(next);
 });
 
@@ -35,8 +44,6 @@ api.post('/students/add', (req, res, next) => {
 });
 
 api.delete('/students/delete/:id', (req, res, next) => {
-  console.log('req.body in delete ', req.body);
-  console.log('req.params in delete ', req.params);
   User.destroy({
     where: {
       id: +req.params.id

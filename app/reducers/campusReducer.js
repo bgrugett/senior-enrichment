@@ -88,3 +88,12 @@ export const addCampus = (campusData) => {
       .catch(console.error);
   };
 };
+export const removeCampus = (campusId) => {
+  return (dispatch) => {
+    axios.delete(`/api/campuses/delete/${+campusId}`)
+      .then(response => {
+        dispatch(deleteCampus(response.data));
+      })
+      .catch(console.error);
+  };
+};

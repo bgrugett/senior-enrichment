@@ -7,7 +7,6 @@ import {removeStudent} from '../reducers/studentReducer';
 
 // ------------- Component
 const Students = (props) => {
-  console.log('~~props in Students ', props);
   return (
     <div>
       <h3>Add a Student </h3>
@@ -26,7 +25,6 @@ const Students = (props) => {
 
 // ------------- Container
 const mapStateToProps = (state) => {
-  console.log('~~state in Students ', state);
   return {
     allStudents: state.students.allStudents,
   };

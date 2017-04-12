@@ -14310,10 +14310,11 @@ var _AddCampus = __webpack_require__(322);
 
 var _AddCampus2 = _interopRequireDefault(_AddCampus);
 
+var _campusReducer = __webpack_require__(162);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // ------------- Component
-// Required libraries
 var Campuses = function Campuses(props) {
   return _react2.default.createElement(
     'div',
@@ -14340,6 +14341,13 @@ var Campuses = function Campuses(props) {
             _NavLink2.default,
             { to: '/campuses/' + campus.name },
             campus.name
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick() {
+                return props.removeCampus(campus.id);
+              } },
+            '  X '
           )
         );
       })
@@ -14349,13 +14357,21 @@ var Campuses = function Campuses(props) {
 };
 
 // ------------- Container
+// Required libraries
 var mapStateToProps = function mapStateToProps(state) {
   return {
     allCampuses: state.campuses.allCampuses
   };
 };
 
-var mapDispatchToProps = null;
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    removeCampus: function removeCampus(campusId) {
+      console.log('remove campus campusId ', campusId);
+      dispatch((0, _campusReducer.removeCampus)(campusId));
+    }
+  };
+};
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Campuses);
 
@@ -14482,7 +14498,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // ------------- Component
 var Students = function Students(props) {
-  console.log('~~props in Students ', props);
   return _react2.default.createElement(
     'div',
     null,
@@ -14526,7 +14541,6 @@ var Students = function Students(props) {
 // ------------- Container
 // Required libraries
 var mapStateToProps = function mapStateToProps(state) {
-  console.log('~~state in Students ', state);
   return {
     allStudents: state.students.allStudents
   };
@@ -15538,7 +15552,7 @@ _reactDom2.default.render(_react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addCampus = exports.fetchCampuses = exports.selectCampus = exports.deleteCampus = exports.newCampus = exports.receiveCampuses = undefined;
+exports.removeCampus = exports.addCampus = exports.fetchCampuses = exports.selectCampus = exports.deleteCampus = exports.newCampus = exports.receiveCampuses = undefined;
 exports.default = campusReducer;
 
 var _axios = __webpack_require__(79);
@@ -15632,6 +15646,13 @@ var addCampus = exports.addCampus = function addCampus(campusData) {
   return function (dispatch) {
     _axios2.default.post('/api/campuses/add', campusData).then(function (response) {
       dispatch(newCampus(response.data));
+    }).catch(console.error);
+  };
+};
+var removeCampus = exports.removeCampus = function removeCampus(campusId) {
+  return function (dispatch) {
+    _axios2.default.delete('/api/campuses/delete/' + +campusId).then(function (response) {
+      dispatch(deleteCampus(response.data));
     }).catch(console.error);
   };
 };
@@ -15775,7 +15796,6 @@ var addStudent = exports.addStudent = function addStudent(studentData) {
 };
 
 var removeStudent = exports.removeStudent = function removeStudent(studentId) {
-  console.log('in removeStudent');
   return function (dispatch) {
     _axios2.default.delete('/api/students/delete/' + studentId).then(function (response) {
       dispatch(deleteStudent(response.data));

@@ -90,7 +90,6 @@ export const addStudent = (studentData) => {
 };
 
 export const removeStudent = (studentId) => {
-  console.log('in removeStudent');
   return (dispatch) => {
     axios.delete(`/api/students/delete/${studentId}`)
       .then(response => {
